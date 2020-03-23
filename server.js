@@ -29,33 +29,6 @@ mongoose.connect(process.env.MONGODB_URI || `mongodb://localhost/workout`, {
 htmlRoutes(app);
 
 // api routes
-app.get(`/?id=:id`, (req, res) => {
-  // const id = req.params.id;
-  console.log(req.params.id);
-  console.log(`calling last exercise id data`);
-  db.Workout.findById(id, data => {
-    console.log(data);
-    res.json(data);
-  }
-  )
-})
-
-app.get(`/test`, (req, res) => {
-  db.Workout.find()
-    .then(data => {
-      let newArr = [];
-      for (let i in data) {
-        console.log(data[i]);
-        const workout = new db.Workout(data[i]);
-        workout.addTotalDuration();
-        newArr.push(workout);
-      };
-      res.json(newArr);
-    })
-    .catch(err => {
-      console.log(err);
-    })
-});
 
 app.get(`/api/workouts`, (req, res) => {
   db.Workout.find({})
@@ -66,7 +39,7 @@ app.get(`/api/workouts`, (req, res) => {
         workout.addTotalDuration();
         newWorkoutArr.push(workout);
       }
-      console.log(`new workouts`, newWorkoutArr);
+      // console.log(`new workouts`, newWorkoutArr);
       res.json(newWorkoutArr);
     })
     .catch(err => {

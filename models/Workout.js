@@ -17,7 +17,7 @@ const WorkoutSchema = new Schema({
 
 WorkoutSchema.methods.addTotalDuration = function () {
   this.totalDuration = 0;
-  console.log(`totalDur: `, this.exercises);
+  // console.log(`totalDur: `, this.exercises);
   if (this.exercises.length > 0) {
     for (const exercise of this.exercises) {
       this.totalDuration += parseInt(exercise.duration);
