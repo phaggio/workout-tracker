@@ -4,6 +4,7 @@ const express = require(`express`);
 const mongoose = require(`mongoose`);
 const logger = require(`morgan`);
 const path = require(`path`);
+const htmlRoutes = require(`./routes/html-routes`);
 
 const PORT = process.env.PORT || 3000;
 
@@ -25,9 +26,7 @@ mongoose.connect(process.env.MONGODB_URI || `mongodb://localhost/workout`, {
 
 // html routes
 // default makes latest exercise api get call
-app.get(`/`, (req, res) => res.sendFile(path.join(__dirname, `/public/index.html`)));
-app.get(`/exercise`, (req, res) => res.sendFile(path.join(__dirname, `/public/exercise.html`)));
-app.get(`/stats`, (req, res) => res.sendFile(path.join(__dirname, `/public/stats.html`)));
+htmlRoutes(app);
 
 // api routes
 app.get(`/?id=:id`, (req, res) => {
@@ -74,6 +73,33 @@ app.get(`/api/workouts`, (req, res) => {
       res.json(err);
     });
 });
+
+app.post(`/api/workouts`, (req, res) => {
+  db.Workout.create({})
+    .then(result => {
+      console.log(`success add to mongoDB`);
+      console.log(`new workout ID: ${result._id}`);
+      res.json(result);
+    })
+    .catch(err => {
+      res.json(err);
+    });
+});
+
+app.put(`/api/workouts/:id`, (req, res) => {
+  db.Workout.update(
+    { _id: req.params.id },
+    { $push: { exercises: req.body } }
+  )
+    .then(result => {
+      console.log(result);
+      res.json(result);
+    })
+    .catch(err => {
+      console.log(err);
+    });
+});
+
 
 app.listen(PORT, () => {
   console.log(`App running on http://localhost:${PORT}`);
