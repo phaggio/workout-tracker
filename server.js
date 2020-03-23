@@ -37,19 +37,38 @@ app.get(`/?id=:id`, (req, res) => {
   db.Workout.findById(id, data => {
     console.log(data);
     res.json(data);
-    // res.send(data);
   }
   )
 })
 
+app.get(`/test`, (req, res) => {
+  db.Workout.find()
+    .then(data => {
+      let newArr = [];
+      for (let i in data) {
+        console.log(data[i]);
+        const workout = new db.Workout(data[i]);
+        workout.addTotalDuration();
+        newArr.push(workout);
+      };
+      res.json(newArr);
+    })
+    .catch(err => {
+      console.log(err);
+    })
+});
+
 app.get(`/api/workouts`, (req, res) => {
   db.Workout.find({})
     .then(workouts => {
-      const lastIndex = workouts.length - 1;
-      const lastWorkout = workouts[lastIndex]
-      console.log(lastWorkout);
-
-      res.json(workouts);
+      let newWorkoutArr = [];
+      for (let i in workouts) {
+        const workout = new db.Workout(workouts[i]);
+        workout.addTotalDuration();
+        newWorkoutArr.push(workout);
+      }
+      console.log(`new workouts`, newWorkoutArr);
+      res.json(newWorkoutArr);
     })
     .catch(err => {
       res.json(err);
