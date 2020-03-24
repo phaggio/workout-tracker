@@ -26,5 +26,4 @@ WorkoutSchema.methods.addTotalDuration = function () {
   return this.totalDuration;
 };
 
-
 module.exports = mongoose.model(`Workout`, WorkoutSchema);

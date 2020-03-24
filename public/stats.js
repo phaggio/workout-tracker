@@ -198,7 +198,7 @@ function duration(data) {
       durations.push(exercise.duration);
     });
   });
-
+  console.log(durations);
   return durations;
 }
 
