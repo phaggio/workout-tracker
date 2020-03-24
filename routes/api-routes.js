@@ -15,7 +15,7 @@ module.exports = app => {
         res.json(newWorkoutArr);
       })
       .catch(err => {
-        res.json(err);
+        res.log(err);
       });
   });
 
@@ -27,7 +27,7 @@ module.exports = app => {
         res.json(result);
       })
       .catch(err => {
-        res.json(err);
+        res.log(err);
       });
   });
 

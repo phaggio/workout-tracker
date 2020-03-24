@@ -3,7 +3,6 @@
 const express = require(`express`);
 const mongoose = require(`mongoose`);
 const logger = require(`morgan`);
-const path = require(`path`);
 const htmlRoutes = require(`./routes/html-routes`);
 const apiRoutes = require(`./routes/api-routes`);
 
@@ -26,7 +25,6 @@ mongoose.connect(process.env.MONGODB_URI || `mongodb://localhost/workout`, {
 });
 
 // html routes
-// default makes latest exercise api get call
 htmlRoutes(app);
 // api routes
 apiRoutes(app);
@@ -34,7 +32,14 @@ apiRoutes(app);
 app.get(`/api/workouts/range`, (req, res) => {
   db.Workout.find({})
     .then(workouts => {
-      res.json(workouts);
+      let workoutsArr = [];
+      for (const workout of workouts) {
+        const workoutDoc = new db.Workout(workout);
+        workoutDoc.addTotalDuration();
+        workoutDoc.addWeekday();
+        workoutsArr.push(workoutDoc);
+      }
+      res.json(workoutsArr);
     })
 })
 

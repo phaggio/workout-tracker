@@ -191,14 +191,14 @@ function populateChart(data) {
 }
 
 function duration(data) {
-  const durations = [];
+  const durations = [0, 0, 0, 0, 0, 0, 0];
 
   data.forEach(workout => {
-    workout.exercises.forEach(exercise => {
-      durations.push(exercise.duration);
-    });
+    console.log(`weekday is ${workout.weekday}`);
+    console.log(`total duration is ${workout.totalDuration} mins`);
+    console.log(durations[workout.weekday]);
+    durations[workout.weekday] += workout.totalDuration;
   });
-  console.log(durations);
   return durations;
 }
 
