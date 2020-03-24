@@ -12,6 +12,9 @@ const WorkoutSchema = new Schema({
   },
   exercises: Array,
   totalDuration: Number,
+  totalWeight: Number,
+  totalReps: Number,
+  totalDistance: Number,
   weekday: Number
 });
 
@@ -31,6 +34,43 @@ WorkoutSchema.methods.addWeekday = function () {
   this.weekday = this.day.getDay();
   return this.weekday;
 };
+
+WorkoutSchema.methods.addTotalWeight = function () {
+  this.totalWeight = 0;
+  if (this.exercises.length > 0) {
+    for (const exercise of this.exercises) {
+      if (exercise.type === `resistance`) {
+        this.totalWeight += (exercise.weight * exercise.reps * exercise.sets);
+      };
+    };
+  };
+  return this.totalWeight;
+};
+
+WorkoutSchema.methods.addTotalReps = function () {
+  this.totalReps = 0;
+  if (this.exercises.length > 0) {
+    for (const exercise of this.exercises) {
+      if (exercise.type === `resistance`) {
+        this.totalReps += (exercise.reps * exercise.sets);
+      };
+    };
+  };
+  return this.totalReps;
+};
+
+WorkoutSchema.methods.addTotalDistance = function () {
+  this.totalDistance = 0;
+  if (this.exercises.length > 0) {
+    for (const exercise of this.exercises) {
+      if (exercise.type === `cardio`) {
+        this.totalDistance += exercise.distance;
+      };
+    };
+  };
+  return this.totalDistance;
+};
+
 
 // 7 objects
 // total duration by weekdays

@@ -9,7 +9,7 @@ fetch(`/api/workouts/range`)
   });
 
 
-API.getWorkoutsInRange();
+// API.getWorkoutsInRange();
 
 function generatePalette() {
   const arr = [
@@ -33,7 +33,9 @@ function generatePalette() {
 
   return arr;
 }
+
 function populateChart(data) {
+  // const weekdayDurations = weekdayDuration(data);
   const durations = duration(data);
   const pounds = calculateTotalWeight(data);
   const workouts = workoutNames(data);
