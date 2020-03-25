@@ -32,14 +32,11 @@ apiRoutes(app);
 app.get(`/api/workouts/range`, (req, res) => {
   db.Workout.find({})
     .then(workouts => {
-      // let workoutsArr = [];
-      // for (const workout of workouts) {
-      //   const workoutDoc = new db.Workout(workout);
-      //   workoutDoc.addTotalDuration();
-      //   workoutDoc.addWeekday();
-      //   workoutsArr.push(workoutDoc);
-      // }
-      // res.json(workoutsArr);
+      const maxWorkouts = 10;
+      console.log(workouts.length);
+      if (workouts.length > maxWorkouts) {
+        workouts = workouts.splice(workouts.length - maxWorkouts)
+      };
       res.json(workouts);
     })
 })
