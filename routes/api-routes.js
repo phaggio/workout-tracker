@@ -6,14 +6,6 @@ module.exports = app => {
   app.get(`/api/workouts`, (req, res) => {
     db.Workout.find({})
       .then(workouts => {
-        // console.log(workouts);
-        // let newWorkoutArr = [];
-        // for (let i in workouts) {
-        //   const workout = new db.Workout(workouts[i]);
-        //   workout.addTotalDuration();
-        //   newWorkoutArr.push(workout);
-        // }
-        // res.json(newWorkoutArr);
         res.json(workouts)
       })
       .catch(err => {
