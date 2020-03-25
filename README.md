@@ -15,4 +15,4 @@ Application link: https://phaggio-workout-tracker.herokuapp.com
 * express
 * mongoose
 * morgan
-
+* compression
