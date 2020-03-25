@@ -3,7 +3,7 @@
 ## Overview
 A basic application that tracks user's exercises in a workout.
 
-Application link: https://phaggio-workout-tracker.herokuapp.com/?id=5e7afd4d9653f700178a6656
+Application link: https://phaggio-workout-tracker.herokuapp.com
 
 ## Technologies
 * HTML
