@@ -39,4 +39,19 @@ module.exports = app => {
       });
   });
 
+  app.get(`/api/workouts/range`, (req, res) => {
+    db.Workout.find({})
+      .then(workouts => {
+        const maxWorkouts = 10;
+        console.log(workouts.length);
+        if (workouts.length > maxWorkouts) {
+          workouts = workouts.splice(workouts.length - maxWorkouts)
+        };
+        res.json(workouts);
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  });
+
 };
