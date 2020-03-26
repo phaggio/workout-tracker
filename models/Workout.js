@@ -1,7 +1,7 @@
 'use strict';
 
 const mongoose = require(`mongoose`);
-const opts = { toJSON: { virtuals: true } };
+const opts = { toJSON: { virtuals: true }, toObject: { virtuals: true } };
 
 const Schema = mongoose.Schema;
 
@@ -11,7 +11,12 @@ const WorkoutSchema = new Schema({
     default: Date.now,
     unique: true
   },
-  exercises: Array,
+  exercises: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: `Exercise`
+    }
+  ],
   weekday: Number
 }, opts);
 
@@ -19,7 +24,7 @@ WorkoutSchema.virtual(`totalDuration`).get(function () {
   let totalDuration = 0;
   if (this.exercises.length > 0) {
     for (const exercise of this.exercises) {
-      totalDuration += parseInt(exercise.duration);
+      totalDuration += parseInt(exercise.exercise.duration);
     };
   };
   return totalDuration;

@@ -5,7 +5,15 @@ const db = require(`../models`);
 module.exports = app => {
   app.get(`/api/workouts`, (req, res) => {
     db.Workout.find({})
+      .populate({
+        path: `exercises`
+        ,
+        populate: {
+          path: `exercise`
+        }
+      })
       .then(workouts => {
+        console.log(workouts[workouts.length - 1]);
         res.json(workouts)
       })
       .catch(err => {
@@ -26,21 +34,46 @@ module.exports = app => {
   });
 
   app.put(`/api/workouts/:id`, (req, res) => {
-    db.Workout.update(
-      { _id: req.params.id },
-      { $push: { exercises: req.body } }
-    )
-      .then(result => {
-        console.log(result);
-        res.json(result);
-      })
-      .catch(err => {
-        console.log(err);
-      });
+    if (req.body.type === 'cardio') {
+      db.Cardio.create(req.body)
+        .then(({ _id }) =>
+          db.Exercise.create({ exercise: _id, onModel: `Cardio` })
+        )
+        .then(({ _id }) =>
+          db.Workout.findOneAndUpdate({ _id: req.params.id }, { $push: { exercises: _id } }, { new: true })
+        )
+        .then(workout => {
+          res.json(workout);
+        })
+        .catch(err => {
+          res.json(err);
+        });
+    } else {
+      db.Resistance.create(req.body)
+        .then(({ _id }) =>
+          db.Exercise.create({ exercise: _id, onModel: `Resistance` })
+        )
+        .then(({ _id }) =>
+          db.Workout.findOneAndUpdate({ _id: req.params.id }, { $push: { exercises: _id } }, { new: true })
+        )
+        .then(workout => {
+          res.json(workout);
+        })
+        .catch(err => {
+          res.json(err);
+        });
+    };
   });
 
   app.get(`/api/workouts/range`, (req, res) => {
     db.Workout.find({})
+      .populate({
+        path: `exercises`
+        ,
+        populate: {
+          path: `exercise`
+        }
+      })
       .then(workouts => {
         const maxWorkouts = 10;
         console.log(workouts.length);

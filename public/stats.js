@@ -144,8 +144,8 @@ function calculateAverageWeight(workouts) {
     let total = 0;
     let numWeightedExcercises = 0;
     for (const excercise of workout.exercises) {
-      if (excercise.weight) {
-        total += excercise.weight;
+      if (excercise.exercise.weight) {
+        total += excercise.exercise.weight;
         ++numWeightedExcercises;
       }
     }
@@ -162,7 +162,7 @@ function listExcercises(data) {
   for (const workout of data) {
     for (const excercise of workout.exercises) {
       const li = document.createElement(`li`);
-      li.innerText = excercise.name;
+      li.innerText = excercise.exercise.name;
       excercisesList.appendChild(li);
     }
   }
