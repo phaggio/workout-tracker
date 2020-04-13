@@ -157,7 +157,7 @@ function calculateAverageWeight(workouts) {
 
 function listExcercises(data) {
   const header = document.createElement(`h2`);
-  header.innerText = `Last ${data.length} Excercises`;
+  header.innerText = `Last ${data.length} Workouts`;
   const excercisesList = document.createElement(`ol`);
   for (const workout of data) {
     for (const excercise of workout.exercises) {

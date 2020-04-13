@@ -75,7 +75,7 @@ module.exports = app => {
         }
       })
       .then(workouts => {
-        const maxWorkouts = 10;
+        const maxWorkouts = 8;
         console.log(workouts.length);
         if (workouts.length > maxWorkouts) {
           workouts = workouts.splice(workouts.length - maxWorkouts)
